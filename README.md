@@ -1,85 +1,77 @@
-# Software Reliability Analysis & Prediction
+# System Software Reliability Modeling
 
-This project provides a comprehensive toolkit for analyzing and predicting software reliability using both traditional **NHPP (Non-Homogeneous Poisson Process)** models and modern **Machine Learning** approaches.
+This project explores various models for predicting and analyzing system software reliability, including traditional statistical models and modern machine learning approaches.
 
-## 🚀 Features
-
-- **Standard NHPP Models**: Implementation of classic models like Goel-Okumoto, Delayed S-shaped, and Inflection S-shaped.
-- **ML-Based Prediction**: Using MLP, SVR, and Tree-based regressors for flexible reliability forecasting.
-- **Trend Analysis**: Integrated Laplace trend test to detect reliability growth or degradation.
-- **Evaluation Metrics**: Support for AIC, BIC, MSE, and RMSE for model comparison.
-- **Modular Structure**: Clean, production-ready code organized into reusable modules.
-
-## 📂 Project Structure
+## Project Structure
 
 ```text
 LBP_Proj_SystemSoftwareReliability/
-├── data/                       # Datasets
-│   ├── raw/                    # Original datasets
-│   └── processed/              # Processed datasets for modeling
-├── notebooks/                  # Original notebooks for reference
-│   ├── 01_nhpp_analysis.ipynb
-│   └── 02_ml_prediction.ipynb
-├── src/                        # Source code
-│   ├── models/                 # Model implementations (NHPP & ML)
-│   ├── utils/                  # Helper functions (data loading, metrics)
-│   └── main.py                 # Entry point to run experiments
-├── tests/                      # Unit tests
-├── requirements.txt            # Project dependencies
-└── README.md                   # Project documentation
+├── data/                      # Raw and processed datasets
+├── notebooks/                 # Interactive analysis & research
+│   ├── NHPP_Models.ipynb      
+│   ├── MixtureModels.ipynb    
+│   └── MLbased.ipynb          
+├── src/                       # Production-grade pipeline code
+│   ├── pipeline/              # Core ML lifecycle modules
+│   │   ├── data_loader.py     # Data ingestion logic
+│   │   ├── trainer.py         # Model training wrappers
+│   │   └── evaluator.py       # Metric calculations
+│   ├── utils/                 # Helper functions
+│   │   └── visualizer.py      # Plotting & reporting tools
+│   └── main.py                # Pipeline entry point
+├── requirements.txt           # Python dependencies
+└── README.md                  # Project documentation
 ```
 
-## 🛠️ Installation
+## Modular Pipeline (`src/`)
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-repo/software-reliability.git
-   cd software-reliability
-   ```
+For production readiness, the logic from the notebooks has been modularized into a cleaner structure:
 
-2. Create a virtual environment and install dependencies:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
+- **`data_loader.py`**: Handles loading of failure datasets and time-series sorting.
+- **`trainer.py`**: Provides a unified interface to initialize NHPP and ML models.
+- **`evaluator.py`**: Standardized metrics for both regression (RMSE, R2) and classification (Accuracy, F1).
+- **`visualizer.py`**: Reusable plotting functions for reliability growth curves.
 
-## 📊 Datasets
+## Models Implemented
 
-This project is designed to work with software failure datasets. You can use the following Kaggle datasets:
-1. [Blue Mountain Supercomputer Failures](https://www.kaggle.com/datasets/proshun/blue-mountain-supercomputer-monthly-failures)
-2. [Software Failure Data](https://www.kaggle.com/datasets/atulanandjha/software-failure-data)
+### 1. NHPP Models (`NHPP_Models.ipynb`)
+This notebook focuses on **Non-Homogeneous Poisson Process (NHPP)** models, which are widely used for software reliability growth modeling (SRGM). It includes implementation and optimization of failure rate parameters.
 
-### Setup Datasets
-1. Download the CSV files from Kaggle.
-2. Place them in the `data/raw/` directory.
-3. Update the path in your scripts or use the `load_failure_data` utility.
+### 2. Mixture Models (`MixtureModels.ipynb`)
+This notebook implements **Survival Analysis** using various statistical distributions:
+- **Weibull Distribution**: Captures varying failure rates over time.
+- **Lognormal Distribution**: Useful for modeling repair times and certain failure patterns.
+- **Gamma Distribution**: A flexible model for time-to-failure data.
 
-## 📈 Usage
+### 3. Machine Learning Models (`MLbased.ipynb`)
+This notebook compares several ML techniques for reliability prediction:
+- **Regression Tasks**: Predicting future failure counts.
+    - Artificial Neural Networks (ANN/Backpropagation)
+    - Support Vector Regression (SVR)
+    - Decision Tree Regressors
+- **Classification Tasks**: Categorizing system risk levels (Low vs. High Risk).
+    - Decision Tree Classifier
+    - Bagging Classifier
+    - Support Vector Classifier (SVC)
 
-### Running the Analysis
-To run a complete demonstration using synthetic data:
+## Getting Started
+
+### Prerequisites
+Ensure you have Python installed. It is recommended to use a virtual environment.
+
+### Installation
+Install the required dependencies using pip:
+
 ```bash
-python src/main.py
+pip install -r requirements.txt
 ```
 
-### Running on Kaggle Data
-To run the analysis on a real dataset, modify `src/main.py` or create a new script:
-```python
-from src.utils.data_loader import load_failure_data
-from src.models.nhpp_models import get_goel_okumoto
+### Usage
+Launch Jupyter Notebook or JupyterLab to explore the implementations:
 
-# Load real data from Kaggle
-data = load_failure_data("data/raw/blue_mountain_failures.csv")
-
-# Proceed with fitting and analysis
-model = get_goel_okumoto()
-model.fit(data)
+```bash
+jupyter notebook
 ```
 
-## 📚 References
-- Pham, H. (2006). *System Software Reliability*. Springer.
-- Chapter 6: NHPP Software Reliability Models.
-
-## 📄 License
-MIT License
+## Data
+The models are tested on failure datasets such as the Blue Mountain supercomputer failure logs. Ensure the data paths in the notebooks are updated to point to your local data sources if necessary.

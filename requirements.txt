@@ -1,8 +1,7 @@
 numpy
 pandas
-scipy
 matplotlib
-scikit-learn
+scipy
 seaborn
-jupyter
+scikit-learn
 ipykernel
